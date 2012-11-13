@@ -40,6 +40,7 @@ import           Data.Foldable
 import           Data.Functor.Fixedpoint
 import           Data.Functor.Identity
 import           Data.Map                   (Map)
+import           Data.Maybe
 import           Data.Monoid
 import           Data.Traversable
 
@@ -166,10 +167,18 @@ data BooleanLogic t
   -- becomes true.
   deriving (Eq, Ord, Show)
 
-
+-- | Context of Rules (i.e. namespace / named relation).
 data RuleContext i
   = RuleContext Name [Rule i]
   deriving (Show)
+
+-- | Annotation type for Terms and Rules.
+data Annotation i ti
+  = Annotation String i
+  -- ^ Rules are annotated with a user supplied 'String' and infos @i@ about source positions.
+  | TermAnnotation ti
+  -- ^ Terms are annotated with some term info @ti@.
+  deriving (Ord, Eq, Show)
 
 
 instance (Monoid i) => Unifiable (TermSpine i) where
@@ -182,16 +191,15 @@ instance (Monoid i) => Unifiable (TermSpine i) where
 
 instance (Monoid i) => Eq (Pattern i) where
   (Pattern p) == (Pattern p') =
-    maybe False (const True)
-            . runIdentity
-            . evalIntBindingT
-            $ p =~= p'
+    isJust
+    . runIdentity
+    . evalIntBindingT
+    $ p =~= p'
 
 instance (Monoid i) => Ord (Pattern i) where
   (Pattern p) <= (Pattern p') =
-    either (const False) (id)
-             . runIdentity
-             . evalIntBindingT
-             . runErrorT
-             $ p <:= p'
-
+    either (const False) id
+    . runIdentity
+    . evalIntBindingT
+    . runErrorT
+    $ p <:= p'
