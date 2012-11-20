@@ -28,7 +28,7 @@ import           Text.Parsec.Char
 import           Text.Parsec.Language
 import           Text.Parsec.Token
 
-import           Language.SOS.Data.Rule     hiding (pattern)
+import           Language.SOS.Rule          hiding (pattern)
 
 -- | A variation on 'haskellStyle'.
 -- The following operators are reserved:

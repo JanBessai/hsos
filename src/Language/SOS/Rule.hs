@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 -- |
--- Module      :  Language.SOS.Data.Rule
+-- Module      :  Language.SOS.Rule
 -- Copyright   :  Copyright (c) 2012-- Jan Bessai
 -- License     :  BSD
 -- Maintainer  :  Jan.Bessai@tu-dortmund.de
@@ -11,7 +11,7 @@
 -- operational semantic specifications.
 ----------------------------------------------------------------
 
-module Language.SOS.Data.Rule
+module Language.SOS.Rule
   ( Rule (..)
   , Name (..)
   , Premiss
@@ -29,9 +29,9 @@ module Language.SOS.Data.Rule
   , Modification (..)
   ) where
 
-import           Data.Map                    (Map)
-import           Language.SOS.Data.Condition
-import           Language.SOS.Data.Term
+import           Data.Map               (Map)
+import           Language.SOS.Condition
+import           Language.SOS.Term
 
 -- | The type of SOS-Rules. The variable @i@ is the type of additional
 -- information about things like sourcecode locations for error
